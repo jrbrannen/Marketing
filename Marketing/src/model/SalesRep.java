@@ -3,6 +3,7 @@
  */
 package model;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 
 /**
@@ -20,8 +21,16 @@ public class SalesRep {
 	private double commission;
 	private long social;
 	private SalesRep[] allReps = new SalesRep[10000];
+	private Map repMap = new Map(10000);
+	
 	public SalesRep() {
 		super();
+	}	
+
+	public SalesRep(String firstname, String lastname) {
+		super();
+		this.firstname = firstname;
+		this.lastname = lastname;
 	}
 
 	public SalesRep(String firstname, String lastname, int level) {
@@ -98,9 +107,16 @@ public class SalesRep {
 		this.social = social;
 	}
 
+	public Map getRepMap() {
+		return repMap;
+	}
+
+	public void setRepMap(Map repMap) {
+		this.repMap = repMap;
+	}
+
 	public void addRep(SalesRep rep) {
-		//SalesRep rep = new SalesRep();
-		Map repMap = new Map(10000);
+		
 		
 		String nameString = getFirstname() + getLastname();
 		int index = repMap.hash(nameString, 10000);
@@ -119,8 +135,9 @@ public class SalesRep {
 	
 	@Override
 	public String toString() {
-		return "SalesRep [firstname=" + firstname + ", lastname=" + lastname + ", level=" + level + ", commission="
-				+ commission + "]";
+		return "SalesRep [firstname=" + firstname + ", lastname=" + lastname + ", uplinkFirstName=" + uplinkFirstName
+				+ ", uplinkLastName=" + uplinkLastName + ", level=" + level + ", commission=" + commission + ", social="
+				+ social + "]";
 	}
 	
 }

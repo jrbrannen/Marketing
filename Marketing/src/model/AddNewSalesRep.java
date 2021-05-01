@@ -8,6 +8,17 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.JSpinner;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.FormSpecs;
+import com.jgoodies.forms.layout.RowSpec;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 /**
  * @author Jeremy Brannen - jrbrannen
@@ -21,6 +32,7 @@ public class AddNewSalesRep {
 	private JTextField lastNameInput;
 	private JTextField uplinkFirstNameInput;
 	private JTextField uplinkLastNameInput;
+	private JTextField socialInput;
 
 	/**
 	 * Launch the application.
@@ -50,44 +62,86 @@ public class AddNewSalesRep {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 941, 478);
+		frame.setBounds(100, 100, 514, 340);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JLabel firstName = new JLabel("First Name");
-		firstName.setBounds(115, 60, 93, 25);
-		frame.getContentPane().add(firstName);
+		JLabel firstNameLabel = new JLabel("First Name");
+		firstNameLabel.setBounds(115, 68, 89, 14);
+		frame.getContentPane().add(firstNameLabel);
 		
 		firstNameInput = new JTextField();
-		firstNameInput.setBounds(229, 62, 191, 20);
+		firstNameInput.setBounds(208, 62, 186, 20);
 		frame.getContentPane().add(firstNameInput);
 		firstNameInput.setColumns(10);
 		
-		JLabel lblLastName = new JLabel("Last Name");
-		lblLastName.setBounds(115, 96, 93, 14);
-		frame.getContentPane().add(lblLastName);
+		JLabel levelLabel = new JLabel("Level");
+		levelLabel.setBounds(115, 193, 35, 14);
+		frame.getContentPane().add(levelLabel);
+		
+		JSpinner levelSpinner = new JSpinner();
+		levelSpinner.setBounds(160, 187, 29, 20);
+		frame.getContentPane().add(levelSpinner);
+		
+		JLabel lastNameLabel = new JLabel("Last Name");
+		lastNameLabel.setBounds(115, 93, 89, 14);
+		frame.getContentPane().add(lastNameLabel);
 		
 		lastNameInput = new JTextField();
-		lastNameInput.setBounds(229, 93, 191, 20);
+		lastNameInput.setBounds(208, 87, 186, 20);
 		frame.getContentPane().add(lastNameInput);
 		lastNameInput.setColumns(10);
 		
+		JLabel socialLabel = new JLabel("Social Security #");
+		socialLabel.setBounds(115, 118, 89, 14);
+		frame.getContentPane().add(socialLabel);
+		
+		socialInput = new JTextField();
+		socialInput.setBounds(208, 112, 186, 20);
+		frame.getContentPane().add(socialInput);
+		socialInput.setColumns(10);
+		
 		JLabel lblUplinksFirstName = new JLabel("Uplink's First Name");
-		lblUplinksFirstName.setBounds(115, 156, 93, 14);
+		lblUplinksFirstName.setBounds(115, 143, 89, 14);
 		frame.getContentPane().add(lblUplinksFirstName);
 		
-		JLabel lblUplinksLastName = new JLabel("Uplink's Last Name");
-		lblUplinksLastName.setBounds(115, 191, 93, 14);
-		frame.getContentPane().add(lblUplinksLastName);
-		
 		uplinkFirstNameInput = new JTextField();
-		uplinkFirstNameInput.setBounds(229, 153, 191, 20);
+		uplinkFirstNameInput.setBounds(208, 137, 186, 20);
 		frame.getContentPane().add(uplinkFirstNameInput);
 		uplinkFirstNameInput.setColumns(10);
 		
+		JLabel lblUplinksLastName = new JLabel("Uplink's Last Name");
+		lblUplinksLastName.setBounds(115, 168, 89, 14);
+		frame.getContentPane().add(lblUplinksLastName);
+		
 		uplinkLastNameInput = new JTextField();
-		uplinkLastNameInput.setBounds(229, 188, 191, 20);
+		uplinkLastNameInput.setBounds(208, 162, 186, 20);
 		frame.getContentPane().add(uplinkLastNameInput);
 		uplinkLastNameInput.setColumns(10);
+		
+		JButton addRepButton = new JButton("Add Sales Rep");
+		addRepButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SalesRep rep = new SalesRep(firstNameInput.getText(),lastNameInput.getText());
+				rep.addRep(rep);
+				
+			}
+		});
+		addRepButton.setBounds(127, 246, 123, 23);
+		frame.getContentPane().add(addRepButton);
+		
+		JButton clearButton = new JButton("Clear");
+		clearButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				firstNameInput.setText("");
+				lastNameInput.setText("");
+				socialInput.setText("");
+				uplinkFirstNameInput.setText("");
+				uplinkLastNameInput.setText("");
+				levelSpinner.setValue(0);
+			}
+		});
+		clearButton.setBounds(296, 246, 98, 23);
+		frame.getContentPane().add(clearButton);
 	}
 }
