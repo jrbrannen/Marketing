@@ -11,12 +11,12 @@ package model;
 public class Map {
 
 	private int size;
-	private String mapArray[];
+	private SalesRep mapArray[];
 
 	public Map(int size) {
 		super();
 		this.size = size;
-		mapArray = new String[size];
+		mapArray = new SalesRep[size];
 	}
 
 	public int getSize() {
@@ -43,11 +43,11 @@ public class Map {
 	 * location based on a hash value. It inserts the string value at that index
 	 * location in the array
 	 * 
-	 * @param value
+	 * @param rep
 	 */
-	public void insertValue(String key, String value) {
+	public void insertValue(String key, SalesRep rep) {
 		int index = hash(key, size);
-		mapArray[index] = value;
+		mapArray[index] = rep;
 
 	}
 
@@ -75,7 +75,7 @@ public class Map {
 	 * @param key
 	 * @return the string value
 	 */
-	public String findValue(String key) {
+	public SalesRep findValue(String key) {
 
 		int index = hash(key, size);
 		return mapArray[index];

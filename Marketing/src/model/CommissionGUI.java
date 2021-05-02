@@ -27,16 +27,17 @@ import javax.swing.Action;
 public class CommissionGUI {
 
 	private JFrame frame;
-	private JTextField firstName;
-	private JTextField lastName;
-	private JTextField level;
-	private LinkedList<SalesRep> reps = new LinkedList();
-	private JButton btnNewButton;
-	private final Action action = new SwingAction();
+	//private LinkedList<SalesRep> reps = new LinkedList();
+	private JButton comPayoutButton;
+	private static SalesRep[] allReps; 
+	private static Map repMap;
+
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		allReps = new SalesRep[10000];
+		repMap = new Map(10000); 
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -61,15 +62,11 @@ public class CommissionGUI {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 927, 535);
+		frame.setBounds(100, 100, 634, 202);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JTextPane textPane = new JTextPane();
-		textPane.setBounds(87, 108, 597, 170);
-		frame.getContentPane().add(textPane);
-		
-		JButton addRepButton = new JButton("Add A Sales Rep");
+		JButton addRepButton = new JButton("Add A New Sales Rep");
 		addRepButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				AddNewSalesRep newRep = new AddNewSalesRep();
@@ -77,55 +74,63 @@ public class CommissionGUI {
 				
 			}
 		});
-		addRepButton.setBounds(87, 321, 130, 23);
+		addRepButton.setBounds(216, 63, 201, 23);
 		frame.getContentPane().add(addRepButton);
 		
-		JLabel lblNewLael = new JLabel("Welcome To Our Marketing Commision Payout Program");
+		JLabel lblNewLael = new JLabel("Welcome To Our Sales Marketing Commision Payout Program");
 		lblNewLael.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLael.setForeground(Color.MAGENTA);
 		lblNewLael.setFont(new Font("Sitka Heading", Font.BOLD | Font.ITALIC, 18));
-		lblNewLael.setBounds(80, 11, 604, 41);
+		lblNewLael.setBounds(0, 11, 614, 41);
 		frame.getContentPane().add(lblNewLael);
 		
-		firstName = new JTextField();
-		firstName.setBounds(87, 374, 130, 20);
-		frame.getContentPane().add(firstName);
-		firstName.setColumns(10);
-		
-		lastName = new JTextField();
-		lastName.setBounds(246, 374, 130, 20);
-		frame.getContentPane().add(lastName);
-		lastName.setColumns(10);
-		
-		level = new JTextField();
-		level.setBounds(460, 374, 86, 20);
-		frame.getContentPane().add(level);
-		level.setColumns(10);
-		
-		btnNewButton = new JButton("New button");
-		btnNewButton.setBounds(265, 321, 135, 23);
-		frame.getContentPane().add(btnNewButton);
+		comPayoutButton = new JButton("Calculate Sales Commission");
+		comPayoutButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ComPayout pay = new ComPayout();
+				pay.CommissionPayout();
+			}
+		});
+		comPayoutButton.setBounds(216, 97, 201, 23);
+		frame.getContentPane().add(comPayoutButton);
 		
 		
 	}
 	
-	private void addSalesRep() {
-		
-		SalesRep newrep = new SalesRep();
-		newrep.setFirstname(firstName.getText());
-		newrep.setLastname(lastName.getText());
-		int lvl = Integer.parseInt(level.getText());
-		newrep.setLevel(lvl);
-		
-		reps.add(newrep);
+	public Map getRepMap() {
+		return repMap;
+	}
+
+	public void setRepMap(Map repMap) {
+		this.repMap = repMap;
+	}
+
+	public SalesRep[] getAllReps() {
+		return allReps;
+	}
+
+	public void setAllReps(SalesRep[] allReps) {
+		this.allReps = allReps;
+	}
 	
-	}
-	private class SwingAction extends AbstractAction {
-		public SwingAction() {
-			putValue(NAME, "SwingAction");
-			putValue(SHORT_DESCRIPTION, "Some short description");
+	public void displayAll() {
+		
+		for(SalesRep rep : allReps) {
+			if(rep!= null) {
+			System.out.println(rep);
+			}
 		}
-		public void actionPerformed(ActionEvent e) {
-		}
+		
 	}
+
+	public void addRep(SalesRep rep) {
+		
+		
+		String nameString = rep.getFirstname() + rep.getLastname();
+		int index = repMap.hash(nameString, 10000);
+		repMap.insertValue(nameString, rep);
+		allReps[index] = rep;
+		System.out.println(index);
+	}
+	
 }
