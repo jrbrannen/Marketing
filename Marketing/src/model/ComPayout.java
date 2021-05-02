@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.awt.event.ActionEvent;
 
 /**
@@ -109,8 +110,8 @@ public class ComPayout {
 		salesRepPayDisplay.setHorizontalAlignment(SwingConstants.LEFT);
 		salesRepPayDisplay.setBounds(449, 228, 86, 14);		
 		
-		JButton clear = new JButton("Clear");
-		clear.addActionListener(new ActionListener() {
+		JButton clearButton = new JButton("Clear");
+		clearButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				firstNameInput.setText("");
@@ -122,8 +123,8 @@ public class ComPayout {
 				seniorDisplayName.setText("");
 			}
 		});	
-		clear.setBounds(264, 153, 89, 23);
-		frame.getContentPane().add(clear);
+		clearButton.setBounds(264, 153, 89, 23);
+		frame.getContentPane().add(clearButton);
 		
 		frame.getContentPane().add(salesRepPayDisplay);
 		frame.getContentPane().setLayout(null);
@@ -144,10 +145,11 @@ public class ComPayout {
 		commissionLabel.setBounds(447, 203, 158, 14);
 		frame.getContentPane().add(commissionLabel);
 		
-		JButton btnNewButton = new JButton("Calculate Commission");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton submitCalcButton = new JButton("Calculate Commission");
+		submitCalcButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CommissionGUI gui = new CommissionGUI();
+				DecimalFormat df = new DecimalFormat("0.##");
 				String firstName = firstNameInput.getText().trim();
 				String lastName = lastNameInput.getText().trim();
 				String nameString = firstName + lastName;;
@@ -155,26 +157,27 @@ public class ComPayout {
 				
 				if(gui.getRepMap().hasKey(nameString) == false) {
 					RepsNameDisplay.setText("Error: "+ firstName + " "+ lastName + " isn't a sales rep.");
-					clear.doClick();
+					clearButton.doClick();
 				}else {
 					double saleAmount = Double.parseDouble(salesInput.getText());
 					double pay = salesRepCommision(saleAmount);
 					RepsNameDisplay.setText(firstNameInput.getText() + " " + lastNameInput.getText());
-					salesRepPayDisplay.setText(String.valueOf(pay));
+					salesRepPayDisplay.setText(String.format("$%.2f", pay));
 					
 				}
 				
 			}
 		});
-		btnNewButton.setBounds(72, 153, 135, 23);
-		frame.getContentPane().add(btnNewButton);
+		submitCalcButton.setBounds(72, 153, 135, 23);
+		frame.getContentPane().add(submitCalcButton);
 		
 
 		
 	}
 	// calculation for sales rep commission
 	public double salesRepCommision(double sale) {
-			double rate = .3;
+		
+			double rate = .30;
 			return sale * rate;
 	}
 }

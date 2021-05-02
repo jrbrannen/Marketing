@@ -28,7 +28,7 @@ public class CommissionGUI {
 
 	private JFrame frame;
 	//private LinkedList<SalesRep> reps = new LinkedList();
-	private JButton btnNewButton;
+	private JButton comPayoutButton;
 	private static SalesRep[] allReps; 
 	private static Map repMap;
 
@@ -74,25 +74,25 @@ public class CommissionGUI {
 				
 			}
 		});
-		addRepButton.setBounds(216, 63, 149, 23);
+		addRepButton.setBounds(216, 63, 201, 23);
 		frame.getContentPane().add(addRepButton);
 		
-		JLabel lblNewLael = new JLabel("Welcome To Our Marketing Commision Payout Program");
+		JLabel lblNewLael = new JLabel("Welcome To Our Sales Marketing Commision Payout Program");
 		lblNewLael.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLael.setForeground(Color.MAGENTA);
 		lblNewLael.setFont(new Font("Sitka Heading", Font.BOLD | Font.ITALIC, 18));
-		lblNewLael.setBounds(10, 11, 604, 41);
+		lblNewLael.setBounds(0, 11, 614, 41);
 		frame.getContentPane().add(lblNewLael);
 		
-		btnNewButton = new JButton("New button");
-		btnNewButton.addActionListener(new ActionListener() {
+		comPayoutButton = new JButton("Calculate Sales Commission");
+		comPayoutButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ComPayout pay = new ComPayout();
 				pay.CommissionPayout();
 			}
 		});
-		btnNewButton.setBounds(226, 97, 135, 23);
-		frame.getContentPane().add(btnNewButton);
+		comPayoutButton.setBounds(216, 97, 201, 23);
+		frame.getContentPane().add(comPayoutButton);
 		
 		
 	}
