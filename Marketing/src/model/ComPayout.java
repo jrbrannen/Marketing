@@ -97,13 +97,17 @@ public class ComPayout {
 		seniorDisplayName.setBounds(239, 279, 201, 14);
 		seniorDisplayName.setHorizontalAlignment(SwingConstants.LEFT);
 		
-		JLabel lblNewLabel_2_1 = new JLabel("");
-		lblNewLabel_2_1.setBounds(239, 254, 200, 14);
-		lblNewLabel_2_1.setHorizontalAlignment(SwingConstants.LEFT);
+		JLabel uplinkNameDisplay = new JLabel("");
+		uplinkNameDisplay.setBounds(239, 254, 200, 14);
+		uplinkNameDisplay.setHorizontalAlignment(SwingConstants.LEFT);
 		
 		JLabel RepsNameDisplay = new JLabel("");
 		RepsNameDisplay.setBounds(239, 228, 200, 14);
 		RepsNameDisplay.setHorizontalAlignment(SwingConstants.LEFT);
+		
+		JLabel salesRepPayDisplay = new JLabel("");
+		salesRepPayDisplay.setHorizontalAlignment(SwingConstants.LEFT);
+		salesRepPayDisplay.setBounds(449, 228, 86, 14);		
 		
 		JButton clear = new JButton("Clear");
 		clear.addActionListener(new ActionListener() {
@@ -112,17 +116,16 @@ public class ComPayout {
 				firstNameInput.setText("");
 				lastNameInput.setText("");
 				salesInput.setText("");
+				salesRepPayDisplay.setText("");
+				RepsNameDisplay.setText("");
+				uplinkNameDisplay.setText("");
+				seniorDisplayName.setText("");
 			}
-		});
-		
+		});	
 		clear.setBounds(264, 153, 89, 23);
 		frame.getContentPane().add(clear);
 		
-		JLabel salesRepPayDisplay = new JLabel("");
-		salesRepPayDisplay.setHorizontalAlignment(SwingConstants.LEFT);
-		salesRepPayDisplay.setBounds(449, 228, 86, 14);
 		frame.getContentPane().add(salesRepPayDisplay);
-		
 		frame.getContentPane().setLayout(null);
 		frame.getContentPane().add(lblRepresentivesSeniorUplink);
 		frame.getContentPane().add(uplinkDisplayName);
@@ -134,7 +137,7 @@ public class ComPayout {
 		frame.getContentPane().add(salesInput);
 		frame.getContentPane().add(lastNameInput);
 		frame.getContentPane().add(RepsNameDisplay);
-		frame.getContentPane().add(lblNewLabel_2_1);
+		frame.getContentPane().add(uplinkNameDisplay);
 		frame.getContentPane().add(seniorDisplayName);
 		
 		JLabel commissionLabel = new JLabel("Comission Payout");
@@ -144,12 +147,13 @@ public class ComPayout {
 		JButton btnNewButton = new JButton("Calculate Commission");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				CommissionGUI gui = new CommissionGUI();
 				String firstName = firstNameInput.getText().trim();
 				String lastName = lastNameInput.getText().trim();
-				String nameString = firstName + lastName;
-				SalesRep rep = new SalesRep(firstName, lastName);
+				String nameString = firstName + lastName;;
 				
-				if(rep.getRepMap().hasKey(nameString) == false) {
+				
+				if(gui.getRepMap().hasKey(nameString) == false) {
 					RepsNameDisplay.setText("Error: "+ firstName + " "+ lastName + " isn't a sales rep.");
 					clear.doClick();
 				}else {

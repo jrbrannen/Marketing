@@ -20,9 +20,9 @@ public class TestDriver {
 		
 		SalesRep one = new SalesRep("Karen", "Complains", "John", "Don't Care", 4, 478596405);
 
-		one.addRep(one);
+//		one.addRep(one);
 		
-		one.displayAll();
+//		one.displayAll();
 		
 		
 	}

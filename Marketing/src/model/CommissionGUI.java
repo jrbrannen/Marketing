@@ -27,13 +27,17 @@ import javax.swing.Action;
 public class CommissionGUI {
 
 	private JFrame frame;
-	private LinkedList<SalesRep> reps = new LinkedList();
+	//private LinkedList<SalesRep> reps = new LinkedList();
 	private JButton btnNewButton;
-	private final Action action = new SwingAction();
+	private static SalesRep[] allReps; 
+	private static Map repMap;
+
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		allReps = new SalesRep[10000];
+		repMap = new Map(10000); 
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -93,23 +97,40 @@ public class CommissionGUI {
 		
 	}
 	
-	private void addSalesRep() {
-		
-		SalesRep newrep = new SalesRep();
-		newrep.setFirstname(firstName.getText());
-		newrep.setLastname(lastName.getText());
-		int lvl = Integer.parseInt(level.getText());
-		newrep.setLevel(lvl);
-		
-		reps.add(newrep);
+	public Map getRepMap() {
+		return repMap;
+	}
+
+	public void setRepMap(Map repMap) {
+		this.repMap = repMap;
+	}
+
+	public SalesRep[] getAllReps() {
+		return allReps;
+	}
+
+	public void setAllReps(SalesRep[] allReps) {
+		this.allReps = allReps;
+	}
 	
-	}
-	private class SwingAction extends AbstractAction {
-		public SwingAction() {
-			putValue(NAME, "SwingAction");
-			putValue(SHORT_DESCRIPTION, "Some short description");
+	public void displayAll() {
+		
+		for(SalesRep rep : allReps) {
+			if(rep!= null) {
+			System.out.println(rep);
+			}
 		}
-		public void actionPerformed(ActionEvent e) {
-		}
+		
 	}
+
+	public void addRep(SalesRep rep) {
+		
+		
+		String nameString = rep.getFirstname() + rep.getLastname();
+		int index = repMap.hash(nameString, 10000);
+		repMap.insertValue(nameString, rep);
+		allReps[index] = rep;
+		System.out.println(index);
+	}
+	
 }

@@ -20,8 +20,7 @@ public class SalesRep {
 	private int level;
 	private double commission;
 	private long social;
-	private SalesRep[] allReps = new SalesRep[10000];
-	private Map repMap = new Map(10000);
+
 	
 	public SalesRep() {
 		super();
@@ -107,31 +106,7 @@ public class SalesRep {
 		this.social = social;
 	}
 
-	public Map getRepMap() {
-		return repMap;
-	}
 
-	public void setRepMap(Map repMap) {
-		this.repMap = repMap;
-	}
-
-	public void addRep(SalesRep rep) {
-		
-		
-		String nameString = getFirstname() + getLastname();
-		int index = repMap.hash(nameString, 10000);
-		allReps[index] = rep;
-	}
-	
-	public void displayAll() {
-		
-		for(SalesRep rep : allReps) {
-			if(rep != null) {
-			System.out.println(rep);
-			}
-		}
-		
-	}
 	
 	@Override
 	public String toString() {

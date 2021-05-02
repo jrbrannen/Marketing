@@ -122,8 +122,9 @@ public class AddNewSalesRep {
 		JButton addRepButton = new JButton("Add Sales Rep");
 		addRepButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				CommissionGUI gui = new CommissionGUI();
 				SalesRep rep = new SalesRep(firstNameInput.getText(),lastNameInput.getText());
-				rep.addRep(rep);
+				gui.addRep(rep);
 				
 			}
 		});
@@ -143,5 +144,15 @@ public class AddNewSalesRep {
 		});
 		clearButton.setBounds(296, 246, 98, 23);
 		frame.getContentPane().add(clearButton);
+		
+		JButton displayAll = new JButton("Display");
+		displayAll.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CommissionGUI gui = new CommissionGUI();
+				gui.displayAll();
+			}
+		});
+		displayAll.setBounds(10, 246, 89, 23);
+		frame.getContentPane().add(displayAll);
 	}
 }
