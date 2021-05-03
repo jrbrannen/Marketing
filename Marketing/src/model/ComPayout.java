@@ -67,7 +67,7 @@ public class ComPayout {
 		lastNameLabel.setBounds(39, 74, 102, 14);
 		
 		JLabel salesLabel = new JLabel("Amount Sold");
-		salesLabel.setBounds(0, 112, 135, 14);
+		salesLabel.setBounds(39, 112, 96, 14);
 		salesLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		firstNameInput = new JTextField();
@@ -110,6 +110,10 @@ public class ComPayout {
 		salesRepPayDisplay.setHorizontalAlignment(SwingConstants.LEFT);
 		salesRepPayDisplay.setBounds(449, 228, 86, 14);		
 		
+		JLabel errorMessageLabel = new JLabel("");
+		errorMessageLabel.setBounds(72, 194, 281, 23);
+		frame.getContentPane().add(errorMessageLabel);
+		
 		JButton clearButton = new JButton("Clear");
 		clearButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -121,6 +125,7 @@ public class ComPayout {
 				RepsNameDisplay.setText("");
 				uplinkNameDisplay.setText("");
 				seniorDisplayName.setText("");
+				errorMessageLabel.setText("");
 			}
 		});	
 		clearButton.setBounds(264, 153, 89, 23);
@@ -149,7 +154,6 @@ public class ComPayout {
 		submitCalcButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CommissionGUI gui = new CommissionGUI();
-				DecimalFormat df = new DecimalFormat("0.##");
 				String firstName = firstNameInput.getText().trim();
 				String lastName = lastNameInput.getText().trim();
 				String nameString = firstName + lastName;;
@@ -163,16 +167,56 @@ public class ComPayout {
 					double pay = salesRepCommision(saleAmount);
 					RepsNameDisplay.setText(firstNameInput.getText() + " " + lastNameInput.getText());
 					salesRepPayDisplay.setText(String.format("$%.2f", pay));
+					configSalesManager(nameString);
 					
 				}
+				
+			}
+
+			private void configSalesManager(String nameString) {
+				// TODO Auto-generated method stub
+				
 				
 			}
 		});
 		submitCalcButton.setBounds(72, 153, 135, 23);
 		frame.getContentPane().add(submitCalcButton);
 		
-
+		JButton addToPayrollButton = new JButton("Add To Payroll");
+		addToPayrollButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				CommissionGUI gui = new CommissionGUI();
+				String firstName = firstNameInput.getText().trim();
+				String lastName = lastNameInput.getText().trim();
+				String nameString = firstName + lastName;
+				
+				if(gui.getRepMap().hasKey(nameString) == false) {
+					RepsNameDisplay.setText("Error: "+ firstName + " "+ lastName + " isn't a sales rep.");
+					clearButton.doClick();
+				}else {
+					gui.getPayroll().enqueue(gui.getRepMap().findValue(nameString));
+					
+				}
+			}
+		});
+		addToPayrollButton.setBounds(86, 355, 172, 23);
+		frame.getContentPane().add(addToPayrollButton);
 		
+		JButton dequeButton = new JButton("Dequeue");
+		dequeButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CommissionGUI gui = new CommissionGUI();
+					try {
+						System.out.println(gui.getPayroll().dequeue());
+					} catch (QueueIsEmptyException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}			
+			}
+		});
+		dequeButton.setBounds(385, 355, 158, 23);
+		frame.getContentPane().add(dequeButton);
+	
 	}
 	// calculation for sales rep commission
 	public double salesRepCommision(double sale) {

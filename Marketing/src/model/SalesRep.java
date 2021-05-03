@@ -15,12 +15,11 @@ public class SalesRep {
 	
 	private String firstname;
 	private String lastname;
-	private String uplinkFirstName;
-	private String uplinkLastName;
-	private int level;
+	private String managerFirstName;
+	private String managerLastName;
+	private int priority;
 	private double commission;
 	private long social;
-
 	
 	public SalesRep() {
 		super();
@@ -32,21 +31,14 @@ public class SalesRep {
 		this.lastname = lastname;
 	}
 
-	public SalesRep(String firstname, String lastname, int level) {
-		super();
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.level = level;
-	}
-	
-	public SalesRep(String firstname, String lastname, String uplinkFirstName, String uplinkLastName, int level,
+	public SalesRep(String firstname, String lastname, String managerFirstName, String managerLastName, int priority,
 			long social) {
 		super();
 		this.firstname = firstname;
 		this.lastname = lastname;
-		this.uplinkFirstName = uplinkFirstName;
-		this.uplinkLastName = uplinkLastName;
-		this.level = level;
+		this.managerFirstName = managerFirstName;
+		this.managerLastName = managerLastName;
+		this.priority = priority;
 		this.social = social;
 	}
 
@@ -66,28 +58,28 @@ public class SalesRep {
 		this.lastname = lastname;
 	}
 
-	public String getUplinkFirstName() {
-		return uplinkFirstName;
+	public String getManagerFirstName() {
+		return managerFirstName;
 	}
 
-	public void setUplinkFirstName(String uplinkFirstName) {
-		this.uplinkFirstName = uplinkFirstName;
+	public void setManagerFirstName(String managerFirstName) {
+		this.managerFirstName = managerFirstName;
 	}
 
-	public String getUplinkLastName() {
-		return uplinkLastName;
+	public String getManagerLastName() {
+		return managerLastName;
 	}
 
-	public void setUplinkLastName(String uplinkLastName) {
-		this.uplinkLastName = uplinkLastName;
+	public void setManagerLastName(String managerLastName) {
+		this.managerLastName = managerLastName;
 	}
 
-	public int getLevel() {
-		return level;
+	public int getPriority() {
+		return priority;
 	}
 
-	public void setLevel(int level) {
-		this.level = level;
+	public void setPriority(int priority) {
+		this.priority = priority;
 	}
 
 	public double getCommission() {
@@ -106,13 +98,11 @@ public class SalesRep {
 		this.social = social;
 	}
 
-
-	
 	@Override
 	public String toString() {
-		return "SalesRep [firstname=" + firstname + ", lastname=" + lastname + ", uplinkFirstName=" + uplinkFirstName
-				+ ", uplinkLastName=" + uplinkLastName + ", level=" + level + ", commission=" + commission + ", social="
-				+ social + "]";
+		return "SalesRep [firstname=" + firstname + ", lastname=" + lastname + ", managerFirstName=" + managerFirstName
+				+ ", managerLastName=" + managerLastName + ", priority=" + priority + ", commission=" + commission
+				+ ", social=" + social + "]";
 	}
 	
 }

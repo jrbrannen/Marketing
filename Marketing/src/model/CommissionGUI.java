@@ -31,6 +31,7 @@ public class CommissionGUI {
 	private JButton comPayoutButton;
 	private static SalesRep[] allReps; 
 	private static Map repMap;
+	private static PriorityQueue payroll;
 
 	/**
 	 * Launch the application.
@@ -38,6 +39,7 @@ public class CommissionGUI {
 	public static void main(String[] args) {
 		allReps = new SalesRep[10000];
 		repMap = new Map(10000); 
+		payroll = new PriorityQueue();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -113,6 +115,14 @@ public class CommissionGUI {
 		this.allReps = allReps;
 	}
 	
+	public PriorityQueue getPayroll() {
+		return payroll;
+	}
+
+	public void setPayroll(PriorityQueue payroll) {
+		CommissionGUI.payroll = payroll;
+	}
+
 	public void displayAll() {
 		
 		for(SalesRep rep : allReps) {
