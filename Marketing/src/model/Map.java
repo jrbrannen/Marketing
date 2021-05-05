@@ -3,6 +3,8 @@
  */
 package model;
 
+import java.util.Arrays;
+
 /**
  * Creates a new map class to store strings
  * 
@@ -91,5 +93,5 @@ public class Map {
 		int index = hash(key, size);
 		mapArray[index] = null;
 	}
-
+	
 }

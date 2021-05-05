@@ -11,7 +11,6 @@ import java.util.LinkedList;
 public class PriorityQueue {
 
 	private LinkedList<SalesRep> payroll;
-
 	/**
 	 * Constructors for Linked List containing Node objects
 	 */
@@ -20,6 +19,7 @@ public class PriorityQueue {
 	}
 
 	public PriorityQueue(LinkedList<SalesRep> payroll) {
+		super();
 		this.payroll = payroll;
 	}
 
@@ -36,31 +36,6 @@ public class PriorityQueue {
 		}
 	}
 
-//	/**
-//	 * Takes a string for the jobs priority and assigns an int value to make
-//	 * comparison coding simpler
-//	 * 
-//	 * @param priority
-//	 * @return value
-//	 */
-//	public int PriorityToIntVal(String priority) {
-//		int value = 0;
-//		if (priority == 1) {
-//			value = 1;
-//		}
-//		if (priority.equals("B")) {
-//			value = 2;
-//		}
-//		if (priority.equals("C")) {
-//			value = 3;
-//		}
-//		if (priority.equals("D")) {
-//			value = 4;
-//		}
-//		return value;
-//
-//	}
-
 	/**
 	 * accepts an object parameter, if list is empty it adds it to the list. if not
 	 * empty it assigns an integer value according to the nodes priority. it then
@@ -74,7 +49,7 @@ public class PriorityQueue {
 		int count = 0;
 		if (payroll.isEmpty()) {
 			payroll.add(rep);
-//			System.out.println("is empty" + node.toString());
+			System.out.println("is empty" + rep.toString());
 		} else if (!payroll.isEmpty()) {
 
 			SalesRep findNode = payroll.element();
@@ -97,20 +72,18 @@ public class PriorityQueue {
 	}
 
 	/**
-	 * removes the first element(node) from the list
+	 * removes the first element(S) from the list
 	 * @return 
 	 * 
 	 * @throws QueueIsEmptyException
 	 */
 	public SalesRep dequeue() throws QueueIsEmptyException {
 			if (!payroll.isEmpty()) {
-				while(!payroll.isEmpty()) {
-					return payroll.removeFirst();
-				}	
+				System.out.println("dequing");
+				return payroll.removeFirst();
 			}else {
 				throw new QueueIsEmptyException();
-			}
-			return null; 			
+			}			
 	}
 
 }

@@ -27,11 +27,10 @@ import javax.swing.Action;
 public class CommissionGUI {
 
 	private JFrame frame;
-	//private LinkedList<SalesRep> reps = new LinkedList();
 	private JButton comPayoutButton;
 	private static SalesRep[] allReps; 
 	private static Map repMap;
-	private static PriorityQueue payroll;
+	static PriorityQueue paylist;
 
 	/**
 	 * Launch the application.
@@ -39,7 +38,20 @@ public class CommissionGUI {
 	public static void main(String[] args) {
 		allReps = new SalesRep[10000];
 		repMap = new Map(10000); 
-		payroll = new PriorityQueue();
+		paylist = new PriorityQueue();
+		
+		SalesRep one = new SalesRep("Hojo", "Mojo");
+		SalesRep two = new SalesRep("Harry", "Kerry");
+		SalesRep three = new SalesRep("JO", "Mama");
+		SalesRep four = new SalesRep("Ricco", "Suave");
+		SalesRep five = new SalesRep("Dennis", "Mence");
+		
+		addRep(one);
+		addRep(two);
+		addRep(three);
+		addRep(four);
+		addRep(five);
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -115,12 +127,12 @@ public class CommissionGUI {
 		this.allReps = allReps;
 	}
 	
-	public PriorityQueue getPayroll() {
-		return payroll;
+	public static PriorityQueue getPaylist() {
+		return paylist;
 	}
 
-	public void setPayroll(PriorityQueue payroll) {
-		CommissionGUI.payroll = payroll;
+	public void setPaylist(PriorityQueue payroll) {
+		CommissionGUI.paylist = payroll;
 	}
 
 	public void displayAll() {
@@ -133,7 +145,7 @@ public class CommissionGUI {
 		
 	}
 
-	public void addRep(SalesRep rep) {
+	public static void addRep(SalesRep rep) {
 		
 		
 		String nameString = rep.getFirstname() + rep.getLastname();
