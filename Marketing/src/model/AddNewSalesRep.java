@@ -20,6 +20,8 @@ import com.jgoodies.forms.layout.RowSpec;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
+import java.awt.Font;
+import java.awt.Color;
 
 /**
  * @author Jeremy Brannen - jrbrannen
@@ -113,38 +115,56 @@ public class AddNewSalesRep {
 		uplinkLastNameInput.setColumns(10);
 		
 		JLabel errorLabel = new JLabel("");
+		errorLabel.setForeground(Color.RED);
+		errorLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 14));
 		errorLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		errorLabel.setBounds(36, 191, 360, 20);
 		frame.getContentPane().add(errorLabel);
 		
+		// adds a rep to the map
 		JButton addRepButton = new JButton("Add Sales Rep");
 		addRepButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CommissionGUI gui = new CommissionGUI();
-				SalesRep rep = new SalesRep(firstNameInput.getText(),lastNameInput.getText());
+	//			CommissionGUI gui = new CommissionGUI();
+				// create a new rep getting name input
+				SalesRep rep = new SalesRep(firstNameInput.getText().trim(),lastNameInput.getText().trim());
+				String repNameString = firstNameInput.getText().trim() + lastNameInput.getText().trim();
+				// managers name input
 				String tempFirstName = uplinkFirstNameInput.getText().trim();
 				String tempLastName = uplinkLastNameInput.getText().trim();
-			//	String tempNameString = tempFirstName + tempLastName;
+				String tempNameString = tempFirstName + tempLastName;
+				
+				// checks to see if manager fields are not empty 
 				if(!tempFirstName.equals("") || !tempLastName.equals("")) {
-					if(gui.getRepMap().hasKey(tempFirstName + tempLastName)) {
-						rep.setManagerFirstName(uplinkFirstNameInput.getText());
-						rep.setManagerLastName(uplinkLastNameInput.getText());
-						CommissionGUI.addRep(rep);
+					// Verifies manager is in the system
+					if(CommissionGUI.getRepMap().hasKey(tempNameString) == true) {
+						
+						CommissionGUI.getRepMap().insertValue(repNameString, rep);
+						// updates the reps manager information
+						CommissionGUI.getRepMap().findValue(repNameString).setManagerFirstName(uplinkFirstNameInput.getText());
+						CommissionGUI.getRepMap().findValue(repNameString).setManagerLastName(uplinkLastNameInput.getText());
+						// adds the rep to the map with message output
 						errorLabel.setText("Sales Rep added.");
+						// manager is not verified, does not add the rep with message
 					}else {
 						uplinkFirstNameInput.setText("");
 						uplinkLastNameInput.setText("");
 						errorLabel.setText("Error sales rep not added: " + tempFirstName + " " + tempLastName + " is not a manager.");
 					}
+				// if rep input fields are empty with error message	
+				}else if (firstNameInput.getText().trim().equals("") || lastNameInput.getText().trim().equals("")){
+					errorLabel.setText("Sales Rep must have a first and last name.");
+				// adds a rep with no manager information
 				}else {
 					errorLabel.setText("Sales Rep added without manager.");
-					CommissionGUI.addRep(rep);
+					CommissionGUI.getRepMap().insertValue(repNameString, rep);
 				}
 			}
 		});
 		addRepButton.setBounds(229, 246, 123, 23);
 		frame.getContentPane().add(addRepButton);
 		
+		// clears all fields in window
 		JButton clearButton = new JButton("Clear");
 		clearButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -153,22 +173,22 @@ public class AddNewSalesRep {
 				socialInput.setText("");
 				uplinkFirstNameInput.setText("");
 				uplinkLastNameInput.setText("");
+				errorLabel.setText("");
 
 			}
 		});
 		clearButton.setBounds(362, 246, 98, 23);
 		frame.getContentPane().add(clearButton);
 		
+		// display all reps currently in system
 		JButton displayAll = new JButton("Display Current Reps");
 		displayAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CommissionGUI gui = new CommissionGUI();
-				gui.displayAll();
+				CommissionGUI.getRepMap().displayAll();
 			}
 		});
 		displayAll.setBounds(70, 246, 149, 23);
-		frame.getContentPane().add(displayAll);
-		
-		
+		frame.getContentPane().add(displayAll);	
 	}
+
 }

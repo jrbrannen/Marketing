@@ -94,4 +94,12 @@ public class Map {
 		mapArray[index] = null;
 	}
 	
+	public void displayAll() {
+		
+		for(int i = 0; i < mapArray.length; i++) {
+			if(mapArray[i] != null) {
+				System.out.println(mapArray[i]);
+			}
+		}
+	}
 }
