@@ -1,25 +1,16 @@
-/**
- * 
- */
 package model;
 
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import java.awt.Color;
-import java.awt.event.MouseMotionAdapter;
-import java.awt.event.MouseEvent;
+
 
 /**
  * @author Jeremy Brannen - jrbrannen
@@ -66,25 +57,25 @@ public class ComPayout {
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		JLabel firstNameLabel = new JLabel("Sales Rep First Name");
-		firstNameLabel.setBounds(39, 39, 110, 14);
+		firstNameLabel.setBounds(39, 39, 158, 14);
 		
 		JLabel lastNameLabel = new JLabel("Sales Rep Last Name");
-		lastNameLabel.setBounds(39, 74, 102, 14);
+		lastNameLabel.setBounds(39, 74, 158, 14);
 		
 		JLabel salesLabel = new JLabel("Amount Sold");
-		salesLabel.setBounds(39, 112, 96, 14);
+		salesLabel.setBounds(39, 112, 121, 14);
 		salesLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		firstNameInput = new JTextField();
-		firstNameInput.setBounds(153, 33, 200, 20);
+		firstNameInput.setBounds(207, 36, 200, 20);
 		firstNameInput.setColumns(10);
 		
 		lastNameInput = new JTextField();
-		lastNameInput.setBounds(153, 71, 200, 20);
+		lastNameInput.setBounds(207, 67, 200, 20);
 		lastNameInput.setColumns(10);
 		
 		salesInput = new JTextField();
-		salesInput.setBounds(153, 106, 86, 20);
+		salesInput.setBounds(207, 106, 86, 20);
 		salesInput.setColumns(10);
 		
 		JLabel lblNewLabel = new JLabel("Sales Represenitive: ");
@@ -218,7 +209,7 @@ public class ComPayout {
 				
 			}
 		});
-		submitCalcButton.setBounds(218, 160, 135, 23);
+		submitCalcButton.setBounds(153, 160, 200, 23);
 		frame.getContentPane().add(submitCalcButton);
 		
 		// add everyone getting paid to a priority queue
@@ -244,7 +235,6 @@ public class ComPayout {
 					CommissionGUI.getRepMap().findValue(nameString).setCommission(salesRepCommision(Double.parseDouble(salesInput.getText())));
 					// enqueue the rep with message
 					CommissionGUI.getPaylist().enqueue(CommissionGUI.getRepMap().findValue(nameString));
-					System.out.println("In enque else");
 					errorMessageLabel.setText("Sales Rep(s) Added To Payroll");
 					
 					// if rep has a manager

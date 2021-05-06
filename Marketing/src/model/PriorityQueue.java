@@ -1,10 +1,6 @@
-/**
- * 
- */
+
 package model;
-
 import java.util.LinkedList;
-
 /**
  * @author Jeremy Brannen - jrbrannen CIS152 Mar 8, 2021
  */
@@ -57,12 +53,11 @@ public class PriorityQueue {
 		int count = 0;
 		if (payroll.isEmpty()) {
 			payroll.add(rep);
-			System.out.println("is empty" + rep.toString());
 		} else if (!payroll.isEmpty()) {
 
-			SalesRep findNode = payroll.element();
+			SalesRep findRep = payroll.element();
 
-			int elementPriority = findNode.getPriority();
+			int elementPriority = findRep.getPriority();
 			int objectPriority = rep.getPriority();
 
 			if (elementPriority > objectPriority) {
@@ -86,7 +81,6 @@ public class PriorityQueue {
 	 */
 	public SalesRep dequeue() throws QueueIsEmptyException {
 			if (!payroll.isEmpty()) {
-				System.out.println("dequing");
 				return payroll.removeFirst();
 			}else {
 				throw new QueueIsEmptyException();
@@ -100,12 +94,13 @@ public class PriorityQueue {
 	 */
 	public void printQueue() throws QueueIsEmptyException {
 		
-			while(!CommissionGUI.paylist.isEmpty()) {
-				SalesRep rep = CommissionGUI.paylist.dequeue();
-				String repString = rep.toString();  //rep.getFirstname() + " " + rep.getLastname() + " " + String.format("$%.2f", rep.getCommission()) + " priority: " +rep.getPriority() + "\n";
+		if(!CommissionGUI.getPaylist().isEmpty()) {
+			while(!CommissionGUI.getPaylist().isEmpty()) {
+				SalesRep rep = CommissionGUI.getPaylist().dequeue();
+				String repString = rep.getFirstname() + " " + rep.getLastname() + " " + String.format("$%.2f", rep.getCommission()) + " priority: " +rep.getPriority() + "\n";
 				System.out.println(repString);
 			}		
-			
+		}
 	}
 
 }

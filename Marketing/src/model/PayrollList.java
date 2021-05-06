@@ -1,16 +1,7 @@
-/**
- * 
- */
+
 package model;
-
 import java.awt.EventQueue;
-import java.io.StringWriter;
-
 import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-import javax.swing.JTextPane;
-import javax.swing.JTextArea;
-import javax.swing.DropMode;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
