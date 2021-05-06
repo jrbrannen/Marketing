@@ -1,19 +1,13 @@
 package model;
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
-import javax.swing.JTextPane;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.Font;
-import java.util.LinkedList;
 import java.awt.Color;
 import javax.swing.SwingConstants;
-import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
 
 /**************************************************************
 * Name        : Data Structures Final Project
@@ -101,7 +95,7 @@ public class CommissionGUI {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 634, 202);
+		frame.setBounds(100, 100, 634, 240);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		

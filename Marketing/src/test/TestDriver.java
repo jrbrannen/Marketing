@@ -80,6 +80,10 @@ public class TestDriver {
 				paylist.enqueue(five);
 				paylist.enqueue(six);
 				paylist.enqueue(ten);
+				
+				// tried dequeing with console but get java.util.ConcurrentModificationException
+				//exception that has to do with my hashmap but still works in GUI
+				paylist.printQueue();
 		
 	}
 
