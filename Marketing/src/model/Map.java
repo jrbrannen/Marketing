@@ -42,7 +42,7 @@ public class Map {
 
 	/**
 	 * Hashes key string to get index value then determines a values indexing
-	 * location based on a hash value. It inserts the string value at that index
+	 * location based on a hash value. It inserts the object value at that index
 	 * location in the array
 	 * 
 	 * @param rep
@@ -72,7 +72,7 @@ public class Map {
 
 	/**
 	 * Hashes key string to get index value uses a key to see if its associated
-	 * value is null. If it is not null it will return the string value
+	 * value is null. If it is not null it will return the object value
 	 * 
 	 * @param key
 	 * @return the string value

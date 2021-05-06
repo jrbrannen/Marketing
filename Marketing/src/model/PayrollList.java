@@ -17,12 +17,13 @@ import javax.swing.SwingConstants;
 /**
  * @author Jeremy Brannen - jrbrannen
  *CIS175
- * May 3, 2021
+ * April 24, 2021
+ * GUI class to display a priority queue list for the user to view
  */
 public class PayrollList {
 
 	private JFrame frame;
-	private JLabel payrollOutput;
+//	private JLabel payrollOutput;
 
 	/**
 	 * Launch the application.
@@ -62,30 +63,33 @@ public class PayrollList {
 		payrollOutput.setVerticalAlignment(SwingConstants.TOP);
 		payrollOutput.setBounds(596, 437, 58, 53);
 		frame.getContentPane().add(payrollOutput);
-		String textString = printQueue();
-		System.out.println(textString);
-		payrollOutput.setText(textString);
+
+	
 		
 		JTextPane textPane = new JTextPane();
 		textPane.setBounds(40, 25, 580, 154);
 		frame.getContentPane().add(textPane);
-		textPane.setText(textString);
+
 	}	
 
-	public String printQueue() throws QueueIsEmptyException {
+	/**
+	 * prints out a queue by iterating through a queue until it is empty
+	 * @throws QueueIsEmptyException
+	 */
+	public void printQueue() throws QueueIsEmptyException {
 		
-		CommissionGUI gui = new CommissionGUI();
-		SalesRep rep;// = new SalesRep();
-			String textString = "damn boy";
+		//CommissionGUI gui = new CommissionGUI();
+		// = new SalesRep();
+		//	String textString = "damn boy";
 			while(!CommissionGUI.getPaylist().isEmpty()) {
-				
-				rep = CommissionGUI.getPaylist().dequeue();
-				textString = textString + " " + rep.getFirstname() + " " + rep.getLastname() + "\n";
-				System.out.println(rep);
-				//System.out.println(textString);
+				SalesRep rep = CommissionGUI.getPaylist().dequeue();
+				String firstName = rep.getFirstname() + rep.getLastname();
+			//	textString = textString + " " + rep.getFirstname() + " " + rep.getLastname() + "\n";
+				System.out.println(firstName);
 				System.out.println("in loop");
+			//	return firstName;
 			}
-			return textString;
+			
 			
 	}
 }

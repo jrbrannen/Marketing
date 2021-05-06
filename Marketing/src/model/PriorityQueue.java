@@ -23,6 +23,14 @@ public class PriorityQueue {
 		this.payroll = payroll;
 	}
 
+	public LinkedList<SalesRep> getPayroll() {
+		return payroll;
+	}
+
+	public void setPayroll(LinkedList<SalesRep> payroll) {
+		this.payroll = payroll;
+	}
+
 	/**
 	 * Checks to see if the list is empty
 	 * 
@@ -38,7 +46,7 @@ public class PriorityQueue {
 
 	/**
 	 * accepts an object parameter, if list is empty it adds it to the list. if not
-	 * empty it assigns an integer value according to the nodes priority. it then
+	 * empty it checks the objects priority. it then looks at the elements priority and
 	 * compares the values to see if it can add it to the front of the list or if it
 	 * needs to iterate through the list comparing values until it finds where to
 	 * enter it in the list.
@@ -73,8 +81,7 @@ public class PriorityQueue {
 
 	/**
 	 * removes the first element(S) from the list
-	 * @return 
-	 * 
+	 * @return a sales rep object
 	 * @throws QueueIsEmptyException
 	 */
 	public SalesRep dequeue() throws QueueIsEmptyException {

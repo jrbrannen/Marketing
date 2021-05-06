@@ -1,8 +1,4 @@
-/**
- * 
- */
 package model;
-
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -19,11 +15,24 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
-/**
- * @author Jeremy Brannen - jrbrannen
- *CIS175
- * Apr 26, 2021
- */
+/**************************************************************
+* Name        : Data Structures Final Project
+* Author      : Jeremy Brannen
+* Created     : 4/17/2021
+* Course      : CIS 152 Data Structures
+* Version     : 1.0
+* OS          : Windows 10
+* Copyright   : This is my own original work based on
+*               specifications issued by our instructor
+* Description : This program overall description here
+*               Input:  list and describe
+*               Output: list and describe
+* Academic Honesty: I attest that this is my original work.
+* I have not used unauthorized source code, either modified or 
+* unmodified. I have not given other fellow student(s) access to
+* my program.         
+***************************************************************/
+
 public class CommissionGUI {
 
 	private JFrame frame;
@@ -36,21 +45,36 @@ public class CommissionGUI {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		// create class objects in app
 		allReps = new SalesRep[10000];
 		repMap = new Map(10000); 
 		paylist = new PriorityQueue();
 		
-		SalesRep one = new SalesRep("Hojo", "Mojo");
+		// create sales reps 
+		SalesRep one = new SalesRep("Joe", "Dirt");
 		SalesRep two = new SalesRep("Harry", "Kerry");
-		SalesRep three = new SalesRep("JO", "Mama");
+		SalesRep three = new SalesRep("Jo", "Anne");
 		SalesRep four = new SalesRep("Ricco", "Suave");
-		SalesRep five = new SalesRep("Dennis", "Mence");
+		SalesRep five = new SalesRep("Dennis", "Menace");
+		SalesRep six = new SalesRep("Lara", "Croft");
+		SalesRep seven = new SalesRep("Peter", "Parker");
+		SalesRep eight = new SalesRep("Rex", "Jones");
+		SalesRep nine = new SalesRep("Vanilla", "Ice");
+		SalesRep ten = new SalesRep("Sy", "Anora");
 		
+		
+		// add all the sales reps
 		addRep(one);
 		addRep(two);
 		addRep(three);
 		addRep(four);
 		addRep(five);
+		addRep(six);
+		addRep(seven);
+		addRep(eight);
+		addRep(nine);
+		addRep(ten);
+		
 		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -80,6 +104,15 @@ public class CommissionGUI {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
+		// title label
+		JLabel lblNewLael = new JLabel("Welcome To Our Sales Marketing Commision Payout Program");
+		lblNewLael.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLael.setForeground(Color.MAGENTA);
+		lblNewLael.setFont(new Font("Sitka Heading", Font.BOLD | Font.ITALIC, 18));
+		lblNewLael.setBounds(0, 11, 614, 41);
+		frame.getContentPane().add(lblNewLael);
+		
+		// button that will open an input window
 		JButton addRepButton = new JButton("Add A New Sales Rep");
 		addRepButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -91,13 +124,7 @@ public class CommissionGUI {
 		addRepButton.setBounds(216, 63, 201, 23);
 		frame.getContentPane().add(addRepButton);
 		
-		JLabel lblNewLael = new JLabel("Welcome To Our Sales Marketing Commision Payout Program");
-		lblNewLael.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLael.setForeground(Color.MAGENTA);
-		lblNewLael.setFont(new Font("Sitka Heading", Font.BOLD | Font.ITALIC, 18));
-		lblNewLael.setBounds(0, 11, 614, 41);
-		frame.getContentPane().add(lblNewLael);
-		
+		// adds a button to open up a calculation window
 		comPayoutButton = new JButton("Calculate Sales Commission");
 		comPayoutButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -107,6 +134,17 @@ public class CommissionGUI {
 		});
 		comPayoutButton.setBounds(216, 97, 201, 23);
 		frame.getContentPane().add(comPayoutButton);
+		
+		// adds a button that opens a user manual window
+		JButton userManuelButton = new JButton("User Manuel");
+		userManuelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				UserManual manual = new UserManual();
+				manual.openManual();
+			}
+		});
+		userManuelButton.setBounds(216, 131, 201, 23);
+		frame.getContentPane().add(userManuelButton);
 		
 		
 	}
@@ -135,6 +173,7 @@ public class CommissionGUI {
 		CommissionGUI.paylist = payroll;
 	}
 
+	// displays all the reps currently in the application
 	public void displayAll() {
 		
 		for(SalesRep rep : allReps) {
@@ -145,6 +184,7 @@ public class CommissionGUI {
 		
 	}
 
+	// adds a rep to the map and to a list
 	public static void addRep(SalesRep rep) {
 		
 		
@@ -154,5 +194,4 @@ public class CommissionGUI {
 		allReps[index] = rep;
 		System.out.println(index);
 	}
-	
 }
