@@ -19,6 +19,7 @@ import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.SwingConstants;
 
 /**
  * @author Jeremy Brannen - jrbrannen
@@ -62,7 +63,7 @@ public class AddNewSalesRep {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 514, 340);
+		frame.setBounds(100, 100, 597, 340);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -74,14 +75,6 @@ public class AddNewSalesRep {
 		firstNameInput.setBounds(208, 62, 186, 20);
 		frame.getContentPane().add(firstNameInput);
 		firstNameInput.setColumns(10);
-		
-		JLabel levelLabel = new JLabel("Level");
-		levelLabel.setBounds(115, 193, 35, 14);
-		frame.getContentPane().add(levelLabel);
-		
-		JSpinner levelSpinner = new JSpinner();
-		levelSpinner.setBounds(160, 187, 29, 20);
-		frame.getContentPane().add(levelSpinner);
 		
 		JLabel lastNameLabel = new JLabel("Last Name");
 		lastNameLabel.setBounds(115, 93, 89, 14);
@@ -119,16 +112,37 @@ public class AddNewSalesRep {
 		frame.getContentPane().add(uplinkLastNameInput);
 		uplinkLastNameInput.setColumns(10);
 		
+		JLabel errorLabel = new JLabel("");
+		errorLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		errorLabel.setBounds(36, 191, 360, 20);
+		frame.getContentPane().add(errorLabel);
+		
 		JButton addRepButton = new JButton("Add Sales Rep");
 		addRepButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CommissionGUI gui = new CommissionGUI();
 				SalesRep rep = new SalesRep(firstNameInput.getText(),lastNameInput.getText());
-				gui.addRep(rep);
-				
+				String tempFirstName = uplinkFirstNameInput.getText().trim();
+				String tempLastName = uplinkLastNameInput.getText().trim();
+			//	String tempNameString = tempFirstName + tempLastName;
+				if(!tempFirstName.equals("") || !tempLastName.equals("")) {
+					if(gui.getRepMap().hasKey(tempFirstName + tempLastName)) {
+						rep.setManagerFirstName(uplinkFirstNameInput.getText());
+						rep.setManagerLastName(uplinkLastNameInput.getText());
+						CommissionGUI.addRep(rep);
+						errorLabel.setText("Sales Rep added.");
+					}else {
+						uplinkFirstNameInput.setText("");
+						uplinkLastNameInput.setText("");
+						errorLabel.setText("Error sales rep not added: " + tempFirstName + " " + tempLastName + " is not a manager.");
+					}
+				}else {
+					errorLabel.setText("Sales Rep added without manager.");
+					CommissionGUI.addRep(rep);
+				}
 			}
 		});
-		addRepButton.setBounds(127, 246, 123, 23);
+		addRepButton.setBounds(229, 246, 123, 23);
 		frame.getContentPane().add(addRepButton);
 		
 		JButton clearButton = new JButton("Clear");
@@ -139,20 +153,22 @@ public class AddNewSalesRep {
 				socialInput.setText("");
 				uplinkFirstNameInput.setText("");
 				uplinkLastNameInput.setText("");
-				levelSpinner.setValue(0);
+
 			}
 		});
-		clearButton.setBounds(296, 246, 98, 23);
+		clearButton.setBounds(362, 246, 98, 23);
 		frame.getContentPane().add(clearButton);
 		
-		JButton displayAll = new JButton("Display");
+		JButton displayAll = new JButton("Display Current Reps");
 		displayAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CommissionGUI gui = new CommissionGUI();
 				gui.displayAll();
 			}
 		});
-		displayAll.setBounds(10, 246, 89, 23);
+		displayAll.setBounds(70, 246, 149, 23);
 		frame.getContentPane().add(displayAll);
+		
+		
 	}
 }

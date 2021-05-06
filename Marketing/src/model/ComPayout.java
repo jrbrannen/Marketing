@@ -16,6 +16,10 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.awt.event.ActionEvent;
+import java.awt.Font;
+import java.awt.Color;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * @author Jeremy Brannen - jrbrannen
@@ -28,6 +32,7 @@ public class ComPayout {
 	private JTextField firstNameInput;
 	private JTextField lastNameInput;
 	private JTextField salesInput;
+	
 
 	/**
 	 * Launch the application.
@@ -67,7 +72,7 @@ public class ComPayout {
 		lastNameLabel.setBounds(39, 74, 102, 14);
 		
 		JLabel salesLabel = new JLabel("Amount Sold");
-		salesLabel.setBounds(0, 112, 135, 14);
+		salesLabel.setBounds(39, 112, 96, 14);
 		salesLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		firstNameInput = new JTextField();
@@ -86,29 +91,43 @@ public class ComPayout {
 		lblNewLabel.setBounds(39, 228, 200, 14);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		
-		JLabel uplinkDisplayName = new JLabel("Representives Uplink: ");
-		uplinkDisplayName.setBounds(39, 253, 200, 14);
-		uplinkDisplayName.setHorizontalAlignment(SwingConstants.RIGHT);
+		JLabel managerDisplayName = new JLabel("Sales Rep Manager: ");
+		managerDisplayName.setBounds(41, 267, 200, 14);
+		managerDisplayName.setHorizontalAlignment(SwingConstants.RIGHT);
 		
-		JLabel lblRepresentivesSeniorUplink = new JLabel("Representive's Senior Uplink: ");
-		lblRepresentivesSeniorUplink.setBounds(39, 279, 200, 14);
-		lblRepresentivesSeniorUplink.setHorizontalAlignment(SwingConstants.RIGHT);
+		JLabel senorSaleManagerLabel = new JLabel("Senor Sales Manager: ");
+		senorSaleManagerLabel.setBounds(41, 306, 200, 14);
+		senorSaleManagerLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		JLabel seniorDisplayName = new JLabel("");
-		seniorDisplayName.setBounds(239, 279, 201, 14);
-		seniorDisplayName.setHorizontalAlignment(SwingConstants.LEFT);
+		seniorDisplayName.setBounds(239, 306, 201, 14);
+		seniorDisplayName.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JLabel uplinkNameDisplay = new JLabel("");
-		uplinkNameDisplay.setBounds(239, 254, 200, 14);
-		uplinkNameDisplay.setHorizontalAlignment(SwingConstants.LEFT);
+		JLabel managerNameDisplay = new JLabel("");
+		managerNameDisplay.setBounds(239, 267, 200, 14);
+		managerNameDisplay.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		JLabel RepsNameDisplay = new JLabel("");
 		RepsNameDisplay.setBounds(239, 228, 200, 14);
-		RepsNameDisplay.setHorizontalAlignment(SwingConstants.LEFT);
+		RepsNameDisplay.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		JLabel salesRepPayDisplay = new JLabel("");
 		salesRepPayDisplay.setHorizontalAlignment(SwingConstants.LEFT);
 		salesRepPayDisplay.setBounds(449, 228, 86, 14);		
+		
+		JLabel errorMessageLabel = new JLabel("");
+		errorMessageLabel.setForeground(Color.RED);
+		errorMessageLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11));
+		errorMessageLabel.setBounds(41, 194, 368, 23);
+		frame.getContentPane().add(errorMessageLabel);
+		
+		JLabel managerComDisplay = new JLabel("");
+		managerComDisplay.setBounds(447, 267, 88, 14);
+		frame.getContentPane().add(managerComDisplay);
+		
+		JLabel seniorManagerComDisplay = new JLabel("");
+		seniorManagerComDisplay.setBounds(447, 306, 88, 14);
+		frame.getContentPane().add(seniorManagerComDisplay);
 		
 		JButton clearButton = new JButton("Clear");
 		clearButton.addActionListener(new ActionListener() {
@@ -119,17 +138,20 @@ public class ComPayout {
 				salesInput.setText("");
 				salesRepPayDisplay.setText("");
 				RepsNameDisplay.setText("");
-				uplinkNameDisplay.setText("");
+				managerNameDisplay.setText("");
 				seniorDisplayName.setText("");
+				errorMessageLabel.setText("");
+				managerComDisplay.setText("");
+				seniorManagerComDisplay.setText("");
 			}
 		});	
-		clearButton.setBounds(264, 153, 89, 23);
+		clearButton.setBounds(587, 355, 89, 23);
 		frame.getContentPane().add(clearButton);
 		
 		frame.getContentPane().add(salesRepPayDisplay);
 		frame.getContentPane().setLayout(null);
-		frame.getContentPane().add(lblRepresentivesSeniorUplink);
-		frame.getContentPane().add(uplinkDisplayName);
+		frame.getContentPane().add(senorSaleManagerLabel);
+		frame.getContentPane().add(managerDisplayName);
 		frame.getContentPane().add(lblNewLabel);
 		frame.getContentPane().add(firstNameLabel);
 		frame.getContentPane().add(firstNameInput);
@@ -138,7 +160,7 @@ public class ComPayout {
 		frame.getContentPane().add(salesInput);
 		frame.getContentPane().add(lastNameInput);
 		frame.getContentPane().add(RepsNameDisplay);
-		frame.getContentPane().add(uplinkNameDisplay);
+		frame.getContentPane().add(managerNameDisplay);
 		frame.getContentPane().add(seniorDisplayName);
 		
 		JLabel commissionLabel = new JLabel("Comission Payout");
@@ -149,35 +171,136 @@ public class ComPayout {
 		submitCalcButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CommissionGUI gui = new CommissionGUI();
-				DecimalFormat df = new DecimalFormat("0.##");
 				String firstName = firstNameInput.getText().trim();
 				String lastName = lastNameInput.getText().trim();
-				String nameString = firstName + lastName;;
-				
+				String nameString = firstName + lastName;
 				
 				if(gui.getRepMap().hasKey(nameString) == false) {
-					RepsNameDisplay.setText("Error: "+ firstName + " "+ lastName + " isn't a sales rep.");
 					clearButton.doClick();
+					errorMessageLabel.setText("Error: "+ firstName + " "+ lastName + " isn't a sales rep.");
 				}else {
+					
 					double saleAmount = Double.parseDouble(salesInput.getText());
 					double pay = salesRepCommision(saleAmount);
 					RepsNameDisplay.setText(firstNameInput.getText() + " " + lastNameInput.getText());
 					salesRepPayDisplay.setText(String.format("$%.2f", pay));
 					
+					if(gui.getRepMap().findValue(nameString).getManagerFirstName() != null) {
+						firstName = gui.getRepMap().findValue(nameString).getManagerFirstName();
+						lastName = gui.getRepMap().findValue(nameString).getManagerLastName();
+						nameString = firstName + lastName;
+						//configSalesManager(nameString);
+						pay = salesManagerCommission(saleAmount);
+						managerNameDisplay.setText(firstName + " " + lastName);
+						managerComDisplay.setText(String.format("$%.2f", pay));
+						System.out.println(gui.getRepMap().findValue(nameString).getManagerFirstName());
+						if(gui.getRepMap().findValue(nameString).getManagerFirstName() != null) {
+							firstName = gui.getRepMap().findValue(nameString).getManagerFirstName();
+							lastName = gui.getRepMap().findValue(nameString).getManagerLastName();
+							nameString = firstName + lastName;
+							pay = seniorManagerCommission(saleAmount);
+							seniorDisplayName.setText(firstName + " " + lastName);
+							seniorManagerComDisplay.setText(String.format("$%.2f", pay));
+						}
+					}
+						
 				}
 				
 			}
+			
+//			private void configSalesManager(String nameString) {
+//				// TODO Auto-generated method stub
+//				
+//				
+//			}
 		});
-		submitCalcButton.setBounds(72, 153, 135, 23);
+		submitCalcButton.setBounds(218, 160, 135, 23);
 		frame.getContentPane().add(submitCalcButton);
 		
-
+		JButton addToPayrollButton = new JButton("Add To Payroll");
+		addToPayrollButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				CommissionGUI gui = new CommissionGUI();
+				String firstName = firstNameInput.getText().trim();
+				String lastName = lastNameInput.getText().trim();
+				String nameString = firstName + lastName;
+				int high = 0;
+				int med = 1;
+				int low = 2;
+				
+				if(gui.getRepMap().hasKey(nameString) == false) {
+					clearButton.doClick();
+					errorMessageLabel.setText("Error: "+ firstName + " "+ lastName + " isn't a sales rep.");	
+				}else {
+					gui.getRepMap().findValue(nameString).setPriority(high);
+					gui.getPaylist().enqueue(gui.getRepMap().findValue(nameString));
+					System.out.println("In enque else");
+					errorMessageLabel.setText("Sales Rep(s) Added To Payroll");
+					if(!managerNameDisplay.getText().equals("")) {
+						firstName = gui.getRepMap().findValue(nameString).getManagerFirstName();
+						lastName = gui.getRepMap().findValue(nameString).getManagerLastName();
+						nameString = firstName + lastName;
+						gui.getRepMap().findValue(nameString).setPriority(med);
+						gui.getPaylist().enqueue(gui.getRepMap().findValue(nameString));
+						if(!seniorDisplayName.getText().contentEquals("")) {
+							firstName = gui.getRepMap().findValue(nameString).getManagerFirstName();
+							lastName = gui.getRepMap().findValue(nameString).getManagerLastName();
+							nameString = firstName + lastName;
+							gui.getRepMap().findValue(nameString).setPriority(low);
+							gui.getPaylist().enqueue(gui.getRepMap().findValue(nameString));
+						}
+					}
+					
+				}
+				firstNameInput.setText("");
+				lastNameInput.setText("");
+				salesInput.setText("");
+				salesRepPayDisplay.setText("");
+				RepsNameDisplay.setText("");
+				managerNameDisplay.setText("");
+				seniorDisplayName.setText("");
+				managerComDisplay.setText("");
+				seniorManagerComDisplay.setText("");
+			}
+		});
+		addToPayrollButton.setBounds(237, 355, 172, 23);
+		frame.getContentPane().add(addToPayrollButton);
 		
+		JButton dequeButton = new JButton("Rep Pay Priority");
+		dequeButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+	
+				PayrollList pay;
+				try {
+					pay = new PayrollList();
+					pay.PayrollList();
+				} catch (QueueIsEmptyException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}			
+					
+			}
+		});
+		dequeButton.setBounds(419, 355, 158, 23);
+		frame.getContentPane().add(dequeButton);
+		
+	
+	
 	}
 	// calculation for sales rep commission
 	public double salesRepCommision(double sale) {
 		
 			double rate = .30;
+			return sale * rate;
+	}
+	
+	public double salesManagerCommission(double sale) {
+			double rate = .1;
+			return sale * rate;
+	}
+	
+	public double seniorManagerCommission(double sale) {
+			double rate = .05;
 			return sale * rate;
 	}
 }
