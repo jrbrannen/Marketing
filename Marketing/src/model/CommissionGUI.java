@@ -64,16 +64,17 @@ public class CommissionGUI {
 		
 		
 		// add all the sales reps
-		addRep(one);
-		addRep(two);
-		addRep(three);
-		addRep(four);
-		addRep(five);
-		addRep(six);
-		addRep(seven);
-		addRep(eight);
-		addRep(nine);
-		addRep(ten);
+		repMap.insertValue("JoeDirt", one);
+		repMap.insertValue("HarryKerry", two);
+		repMap.insertValue("JoAnne", three);
+		repMap.insertValue("RiccoSuave", four);
+		repMap.insertValue("DennisMenace", five);
+		repMap.insertValue("LaraCroft", six);
+		repMap.insertValue("PeterParker", seven);
+		repMap.insertValue("RexJones", eight);
+		repMap.insertValue("VanillaIce", nine);
+		repMap.insertValue("SyAnora", ten);
+		
 		
 		
 		EventQueue.invokeLater(new Runnable() {
@@ -149,7 +150,7 @@ public class CommissionGUI {
 		
 	}
 	
-	public Map getRepMap() {
+	public static Map getRepMap() {
 		return repMap;
 	}
 
@@ -174,24 +175,24 @@ public class CommissionGUI {
 	}
 
 	// displays all the reps currently in the application
-	public void displayAll() {
-		
-		for(SalesRep rep : allReps) {
-			if(rep!= null) {
-			System.out.println(rep);
-			}
-		}
-		
-	}
+//	public void displayAll() {
+//		
+//		for(SalesRep rep : allReps) {
+//			if(rep!= null) {
+//			System.out.println(rep);
+//			}
+//		}
+//		
+//	}
 
 	// adds a rep to the map and to a list
-	public static void addRep(SalesRep rep) {
-		
-		
-		String nameString = rep.getFirstname() + rep.getLastname();
-		int index = repMap.hash(nameString, 10000);
-		repMap.insertValue(nameString, rep);
-		allReps[index] = rep;
-		System.out.println(index);
-	}
+//	public static void addRep(SalesRep rep) {
+//		
+//		
+//		String nameString = rep.getFirstname() + rep.getLastname();
+//		int index = repMap.hash(nameString, 10000);
+//		repMap.insertValue(nameString, rep);
+//		allReps[index] = rep;
+//		System.out.println(index);
+//	}
 }

@@ -23,7 +23,7 @@ import javax.swing.SwingConstants;
 public class PayrollList {
 
 	private JFrame frame;
-//	private JLabel payrollOutput;
+	private JLabel payrollOutput;
 
 	/**
 	 * Launch the application.
@@ -63,33 +63,11 @@ public class PayrollList {
 		payrollOutput.setVerticalAlignment(SwingConstants.TOP);
 		payrollOutput.setBounds(596, 437, 58, 53);
 		frame.getContentPane().add(payrollOutput);
-
-	
 		
-		JTextPane textPane = new JTextPane();
-		textPane.setBounds(40, 25, 580, 154);
-		frame.getContentPane().add(textPane);
+		CommissionGUI.getPaylist().printQueue();
 
 	}	
+	
 
-	/**
-	 * prints out a queue by iterating through a queue until it is empty
-	 * @throws QueueIsEmptyException
-	 */
-	public void printQueue() throws QueueIsEmptyException {
-		
-		//CommissionGUI gui = new CommissionGUI();
-		// = new SalesRep();
-		//	String textString = "damn boy";
-			while(!CommissionGUI.getPaylist().isEmpty()) {
-				SalesRep rep = CommissionGUI.getPaylist().dequeue();
-				String firstName = rep.getFirstname() + rep.getLastname();
-			//	textString = textString + " " + rep.getFirstname() + " " + rep.getLastname() + "\n";
-				System.out.println(firstName);
-				System.out.println("in loop");
-			//	return firstName;
-			}
-			
-			
-	}
+	
 }

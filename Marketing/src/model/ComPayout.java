@@ -111,9 +111,9 @@ public class ComPayout {
 		RepsNameDisplay.setBounds(239, 228, 200, 14);
 		RepsNameDisplay.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JLabel salesRepPayDisplay = new JLabel("");
-		salesRepPayDisplay.setHorizontalAlignment(SwingConstants.LEFT);
-		salesRepPayDisplay.setBounds(449, 228, 86, 14);		
+		JLabel salesRepComDisplay = new JLabel("");
+		salesRepComDisplay.setHorizontalAlignment(SwingConstants.LEFT);
+		salesRepComDisplay.setBounds(449, 228, 86, 14);		
 		
 		JLabel errorMessageLabel = new JLabel("");
 		errorMessageLabel.setForeground(Color.RED);
@@ -136,7 +136,7 @@ public class ComPayout {
 				firstNameInput.setText("");
 				lastNameInput.setText("");
 				salesInput.setText("");
-				salesRepPayDisplay.setText("");
+				salesRepComDisplay.setText("");
 				RepsNameDisplay.setText("");
 				managerNameDisplay.setText("");
 				seniorDisplayName.setText("");
@@ -148,7 +148,7 @@ public class ComPayout {
 		clearButton.setBounds(587, 355, 89, 23);
 		frame.getContentPane().add(clearButton);
 		
-		frame.getContentPane().add(salesRepPayDisplay);
+		frame.getContentPane().add(salesRepComDisplay);
 		frame.getContentPane().setLayout(null);
 		frame.getContentPane().add(senorSaleManagerLabel);
 		frame.getContentPane().add(managerDisplayName);
@@ -163,42 +163,52 @@ public class ComPayout {
 		frame.getContentPane().add(managerNameDisplay);
 		frame.getContentPane().add(seniorDisplayName);
 		
-		JLabel commissionLabel = new JLabel("Comission Payout");
+		JLabel commissionLabel = new JLabel("Commission Payout");
 		commissionLabel.setBounds(447, 203, 158, 14);
 		frame.getContentPane().add(commissionLabel);
 		
 		JButton submitCalcButton = new JButton("Calculate Commission");
 		submitCalcButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CommissionGUI gui = new CommissionGUI();
+	
 				String firstName = firstNameInput.getText().trim();
 				String lastName = lastNameInput.getText().trim();
 				String nameString = firstName + lastName;
 				
-				if(gui.getRepMap().hasKey(nameString) == false) {
+				// checks to see if rep entered is not in the system
+				if(CommissionGUI.getRepMap().hasKey(nameString) == false) {
 					clearButton.doClick();
 					errorMessageLabel.setText("Error: "+ firstName + " "+ lastName + " isn't a sales rep.");
-				}else {
-					
+				// if rep is in the system
+				}else{
+					// parse and get sale input
 					double saleAmount = Double.parseDouble(salesInput.getText());
+					// call calculation method
 					double pay = salesRepCommision(saleAmount);
+					// display output
 					RepsNameDisplay.setText(firstNameInput.getText() + " " + lastNameInput.getText());
-					salesRepPayDisplay.setText(String.format("$%.2f", pay));
+					salesRepComDisplay.setText(String.format("$%.2f", pay));
 					
-					if(gui.getRepMap().findValue(nameString).getManagerFirstName() != null) {
-						firstName = gui.getRepMap().findValue(nameString).getManagerFirstName();
-						lastName = gui.getRepMap().findValue(nameString).getManagerLastName();
+					// if rep has a manager
+					if(CommissionGUI.getRepMap().findValue(nameString).getManagerFirstName() != null) {
+						// get managers info
+						firstName = CommissionGUI.getRepMap().findValue(nameString).getManagerFirstName();
+						lastName = CommissionGUI.getRepMap().findValue(nameString).getManagerLastName();
 						nameString = firstName + lastName;
-						//configSalesManager(nameString);
+						// call calculation method
 						pay = salesManagerCommission(saleAmount);
+						// display output
 						managerNameDisplay.setText(firstName + " " + lastName);
 						managerComDisplay.setText(String.format("$%.2f", pay));
-						System.out.println(gui.getRepMap().findValue(nameString).getManagerFirstName());
-						if(gui.getRepMap().findValue(nameString).getManagerFirstName() != null) {
-							firstName = gui.getRepMap().findValue(nameString).getManagerFirstName();
-							lastName = gui.getRepMap().findValue(nameString).getManagerLastName();
+						
+						// if the manager has a manager
+						if(CommissionGUI.getRepMap().findValue(nameString).getManagerFirstName() != null) {
+							firstName = CommissionGUI.getRepMap().findValue(nameString).getManagerFirstName();
+							lastName = CommissionGUI.getRepMap().findValue(nameString).getManagerLastName();
 							nameString = firstName + lastName;
+							// call calculation method
 							pay = seniorManagerCommission(saleAmount);
+							// display output
 							seniorDisplayName.setText(firstName + " " + lastName);
 							seniorManagerComDisplay.setText(String.format("$%.2f", pay));
 						}
@@ -207,20 +217,15 @@ public class ComPayout {
 				}
 				
 			}
-			
-//			private void configSalesManager(String nameString) {
-//				// TODO Auto-generated method stub
-//				
-//				
-//			}
 		});
 		submitCalcButton.setBounds(218, 160, 135, 23);
 		frame.getContentPane().add(submitCalcButton);
 		
+		// add everyone getting paid to a priority queue
 		JButton addToPayrollButton = new JButton("Add To Payroll");
 		addToPayrollButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				CommissionGUI gui = new CommissionGUI();
+	//			CommissionGUI gui = new CommissionGUI();
 				String firstName = firstNameInput.getText().trim();
 				String lastName = lastNameInput.getText().trim();
 				String nameString = firstName + lastName;
@@ -228,34 +233,52 @@ public class ComPayout {
 				int med = 1;
 				int low = 2;
 				
-				if(gui.getRepMap().hasKey(nameString) == false) {
+				// check to if rep is not in system with error message
+				if(CommissionGUI.getRepMap().hasKey(nameString) == false) {
 					clearButton.doClick();
 					errorMessageLabel.setText("Error: "+ firstName + " "+ lastName + " isn't a sales rep.");	
+				// if rep is in system
 				}else {
-					gui.getRepMap().findValue(nameString).setPriority(high);
-					gui.getPaylist().enqueue(gui.getRepMap().findValue(nameString));
+					// find rep info in map and set priority to high
+					CommissionGUI.getRepMap().findValue(nameString).setPriority(high);
+					CommissionGUI.getRepMap().findValue(nameString).setCommission(salesRepCommision(Double.parseDouble(salesInput.getText())));
+					// enqueue the rep with message
+					CommissionGUI.getPaylist().enqueue(CommissionGUI.getRepMap().findValue(nameString));
 					System.out.println("In enque else");
 					errorMessageLabel.setText("Sales Rep(s) Added To Payroll");
+					
+					// if rep has a manager
 					if(!managerNameDisplay.getText().equals("")) {
-						firstName = gui.getRepMap().findValue(nameString).getManagerFirstName();
-						lastName = gui.getRepMap().findValue(nameString).getManagerLastName();
+						// get managers info
+						firstName = CommissionGUI.getRepMap().findValue(nameString).getManagerFirstName();
+						lastName = CommissionGUI.getRepMap().findValue(nameString).getManagerLastName();
 						nameString = firstName + lastName;
-						gui.getRepMap().findValue(nameString).setPriority(med);
-						gui.getPaylist().enqueue(gui.getRepMap().findValue(nameString));
+						// set priority
+						CommissionGUI.getRepMap().findValue(nameString).setPriority(med);
+						CommissionGUI.getRepMap().findValue(nameString).setCommission(salesManagerCommission(Double.parseDouble(salesInput.getText())));
+						// enqueue 
+						CommissionGUI.getPaylist().enqueue(CommissionGUI.getRepMap().findValue(nameString));
+						
+						// if rep has a senior manager
 						if(!seniorDisplayName.getText().contentEquals("")) {
-							firstName = gui.getRepMap().findValue(nameString).getManagerFirstName();
-							lastName = gui.getRepMap().findValue(nameString).getManagerLastName();
+							// get senior manager info
+							firstName = CommissionGUI.getRepMap().findValue(nameString).getManagerFirstName();
+							lastName = CommissionGUI.getRepMap().findValue(nameString).getManagerLastName();
 							nameString = firstName + lastName;
-							gui.getRepMap().findValue(nameString).setPriority(low);
-							gui.getPaylist().enqueue(gui.getRepMap().findValue(nameString));
+							// set priority
+							CommissionGUI.getRepMap().findValue(nameString).setPriority(low);
+							CommissionGUI.getRepMap().findValue(nameString).setCommission(seniorManagerCommission(Double.parseDouble(salesInput.getText())));
+							// enqueue
+							CommissionGUI.getPaylist().enqueue(CommissionGUI.getRepMap().findValue(nameString));
 						}
 					}
 					
 				}
+				// reset all fields
 				firstNameInput.setText("");
 				lastNameInput.setText("");
 				salesInput.setText("");
-				salesRepPayDisplay.setText("");
+				salesRepComDisplay.setText("");
 				RepsNameDisplay.setText("");
 				managerNameDisplay.setText("");
 				seniorDisplayName.setText("");
@@ -266,6 +289,7 @@ public class ComPayout {
 		addToPayrollButton.setBounds(237, 355, 172, 23);
 		frame.getContentPane().add(addToPayrollButton);
 		
+		// button that prints the priority queue of payroll
 		JButton dequeButton = new JButton("Rep Pay Priority");
 		dequeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -294,11 +318,13 @@ public class ComPayout {
 			return sale * rate;
 	}
 	
+	// calculation for sales manager commission
 	public double salesManagerCommission(double sale) {
 			double rate = .1;
 			return sale * rate;
 	}
 	
+	// calculation for senior sales manager commission
 	public double seniorManagerCommission(double sale) {
 			double rate = .05;
 			return sale * rate;

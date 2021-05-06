@@ -92,5 +92,20 @@ public class PriorityQueue {
 				throw new QueueIsEmptyException();
 			}			
 	}
+	
+	/**
+	 * prints out a queue by iterating through a queue until it is empty
+	 * @return 
+	 * @throws QueueIsEmptyException
+	 */
+	public void printQueue() throws QueueIsEmptyException {
+		
+			while(!CommissionGUI.paylist.isEmpty()) {
+				SalesRep rep = CommissionGUI.paylist.dequeue();
+				String repString = rep.toString();  //rep.getFirstname() + " " + rep.getLastname() + " " + String.format("$%.2f", rep.getCommission()) + " priority: " +rep.getPriority() + "\n";
+				System.out.println(repString);
+			}		
+			
+	}
 
 }
